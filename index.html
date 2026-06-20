@@ -103,5 +103,121 @@
     <div class="input-group">
         <input type="text" id="expression" placeholder="계산식을 입력하세요 (예: 2 * (3 + 4))">
         <input type="number" id="expected-answer" placeholder="예상되는 결과를 입력하세요 (선택사항)">
-        <button onclick="calculate()">계산 및 확인하기</button>
+        <button id="btn-calculate">계산 및 확인하기</button>
     </div>
+
+    <div id="feedback"></div>
+
+    <h3>📊 계산 기록</h3>
+    <ul id="history-list" class="history-list">
+        <li id="empty-message" style="text-align: center; color: #999;">기록이 없습니다.</li>
+    </ul>
+
+    <footer>
+        © 2026 충북자연과학교육원 필즈수학프로젝트의 자산
+    </footer>
+</div>
+
+<script>
+    // DOM이 완전히 로드된 후 스크립트가 실행되도록 보장
+    document.addEventListener('DOMContentLoaded', () => {
+        let usageCount = 0;
+
+        const exprInput = document.getElementById('expression');
+        const expAnsInput = document.getElementById('expected-answer');
+        const btnCalculate = document.getElementById('btn-calculate');
+        const feedbackDiv = document.getElementById('feedback');
+        const historyList = document.getElementById('history-list');
+        const usageCountSpan = document.getElementById('usage-count');
+        const emptyMessage = document.getElementById('empty-message');
+
+        function showFeedback(message, color) {
+            feedbackDiv.innerHTML = `<span style="color: ${color}; font-weight: bold;">${message}</span>`;
+            feedbackDiv.style.display = 'block';
+        }
+
+        function calculate() {
+            try {
+                const expression = exprInput.value.trim();
+                const expectedAnswer = expAnsInput.value.trim();
+
+                if (!expression) {
+                    showFeedback('계산식을 입력해주세요.', '#d32f2f');
+                    return;
+                }
+
+                if (!/^[0-9+\-*/().\s]+$/.test(expression)) {
+                    showFeedback('유효하지 않은 수식입니다. 숫자와 사칙연산 기호만 사용해주세요.', '#d32f2f');
+                    return;
+                }
+
+                // 수식 계산
+                const calculatedResult = new Function('return (' + expression + ')')();
+                
+                if (typeof calculatedResult !== 'number' || !isFinite(calculatedResult) || isNaN(calculatedResult)) {
+                     showFeedback('정상적인 계산 결과가 아닙니다.', '#d32f2f');
+                     return;
+                }
+
+                let feedbackMessage = `계산 결과: ${calculatedResult}`;
+                let isCorrect = null;
+                let historyExpectedText = '입력 안함';
+
+                if (expectedAnswer !== '') {
+                    const parsedUserAnswer = Number(expectedAnswer);
+                    isCorrect = (parsedUserAnswer === calculatedResult);
+                    
+                    if (isCorrect) {
+                        feedbackMessage = `정답입니다! 🎉 (계산 결과: ${calculatedResult})`;
+                        showFeedback(feedbackMessage, '#2e7d32');
+                    } else {
+                        feedbackMessage = `틀렸습니다. 정답은 ${calculatedResult} 입니다.`;
+                        showFeedback(feedbackMessage, '#d32f2f');
+                    }
+                    historyExpectedText = `${expectedAnswer} <strong style="color: ${isCorrect ? '#2e7d32' : '#d32f2f'}">(${isCorrect ? '정답' : '오답'})</strong>`;
+                } else {
+                    showFeedback(feedbackMessage, '#333');
+                }
+
+                usageCount++;
+                usageCountSpan.textContent = usageCount;
+
+                if (emptyMessage) {
+                    emptyMessage.style.display = 'none';
+                }
+
+                const li = document.createElement('li');
+                li.innerHTML = `
+                    <div style="margin-bottom: 5px;"><strong>수식:</strong> ${expression}</div>
+                    <div style="margin-bottom: 5px;"><strong>결과:</strong> ${calculatedResult}</div>
+                    ${expectedAnswer !== '' ? `<div>사용자 입력: ${historyExpectedText}</div>` : ''}
+                `;
+                
+                historyList.insertBefore(li, historyList.firstChild);
+
+                exprInput.value = '';
+                expAnsInput.value = '';
+                exprInput.focus();
+
+            } catch (error) {
+                // 에러 발생 시 콘솔에 로그 출력
+                console.error('계산 중 오류 발생:', error);
+                showFeedback('수식에 오류가 있습니다. 괄호의 짝 등이 맞는지 확인해주세요.', '#d32f2f');
+            }
+        }
+
+        // 이벤트 리스너를 자바스크립트에서 직접 바인딩
+        btnCalculate.addEventListener('click', calculate);
+        
+        exprInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') calculate();
+        });
+        
+        expAnsInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') calculate();
+        });
+    });
+</script>
+
+</body>
+</html>
