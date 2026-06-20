@@ -5,125 +5,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>필즈 혼합계산기</title>
     <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            max-width: 500px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: #f9f9f9;
-        }
-        .container {
-            background-color: white;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-        }
-        h2 {
-            text-align: center;
-            color: #333;
-        }
-        .usage-info {
-            margin-bottom: 15px;
-            font-size: 16px;
-            color: #555;
-        }
-        .input-group {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-        input {
-            padding: 12px;
-            font-size: 16px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-        button {
-            padding: 12px;
-            font-size: 16px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-weight: bold;
-        }
-        button:hover {
-            background-color: #45a049;
-        }
-        #feedback {
-            padding: 15px;
-            background-color: #f0f8ff;
-            margin-bottom: 20px;
-            border-radius: 5px;
-            display: none;
-            text-align: center;
-        }
-        /* 리스트 전체 제목 입력창 스타일 */
-        #history-title {
-            width: 100%;
-            padding: 10px;
-            font-size: 18px;
-            font-weight: bold;
-            color: #333;
-            border: none;
-            border-bottom: 2px solid #4CAF50;
-            margin-bottom: 15px;
-            background-color: transparent;
-            box-sizing: border-box;
-            border-radius: 0;
-        }
-        #history-title:focus {
-            outline: none;
-            background-color: #f0f8ff;
-            border-radius: 5px 5px 0 0;
-        }
-        .history-list {
-            list-style: none;
-            padding: 0;
-            max-height: 350px;
-            overflow-y: auto;
-            border: 1px solid #eee;
-            border-radius: 5px;
-        }
-        .history-list li {
-            padding: 15px;
-            border-bottom: 1px solid #eee;
-            background-color: #fafafa;
-            display: flex;
-            flex-direction: column;
-        }
-        .history-list li:last-child {
-            border-bottom: none;
-        }
-        /* 개별 계산 메모 입력창 스타일 */
-        .history-memo {
-            width: 100%;
-            padding: 8px;
-            margin-bottom: 10px;
-            border: 1px dashed #ccc;
-            border-radius: 4px;
-            background-color: transparent;
-            font-size: 14px;
-            color: #555;
-            box-sizing: border-box;
-            transition: all 0.2s ease;
-        }
-        .history-memo:focus {
-            border: 1px solid #4CAF50;
-            outline: none;
-            background-color: #fff;
-            box-shadow: 0 0 5px rgba(76, 175, 80, 0.2);
-        }
-        footer {
-            margin-top: 30px;
-            text-align: center;
-            font-size: 12px;
-            color: #888;
-            border-top: 1px solid #ddd;
-            padding-top: 15px;
-        }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 500px; margin: 0 auto; padding: 20px; background-color: #f9f9f9; }
+        .container { background-color: white; padding: 30px; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        h2 { text-align: center; color: #333; }
+        .usage-info { margin-bottom: 15px; font-size: 16px; color: #555; display: flex; justify-content: space-between; align-items: center; }
+        .input-group { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
+        input { padding: 12px; font-size: 16px; border: 1px solid #ccc; border-radius: 5px; }
+        button { padding: 12px; font-size: 16px; background-color: #4CAF50; color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; }
+        button:hover { background-color: #45a049; }
+        .btn-clear { background-color: #d32f2f; font-size: 14px; padding: 8px 12px; }
+        .btn-clear:hover { background-color: #b71c1c; }
+        #feedback { padding: 15px; background-color: #f0f8ff; margin-bottom: 20px; border-radius: 5px; display: none; text-align: center; }
+        #history-title { width: 100%; padding: 10px; font-size: 18px; font-weight: bold; color: #333; border: none; border-bottom: 2px solid #4CAF50; margin-bottom: 15px; background-color: transparent; box-sizing: border-box; border-radius: 0; }
+        #history-title:focus { outline: none; background-color: #f0f8ff; border-radius: 5px 5px 0 0; }
+        .history-list { list-style: none; padding: 0; max-height: 350px; overflow-y: auto; border: 1px solid #eee; border-radius: 5px; }
+        .history-list li { padding: 15px; border-bottom: 1px solid #eee; background-color: #fafafa; display: flex; flex-direction: column; }
+        .history-list li:last-child { border-bottom: none; }
+        .history-memo { width: 100%; padding: 8px; margin-bottom: 10px; border: 1px dashed #ccc; border-radius: 4px; background-color: transparent; font-size: 14px; color: #555; box-sizing: border-box; transition: all 0.2s ease; }
+        .history-memo:focus { border: 1px solid #4CAF50; outline: none; background-color: #fff; box-shadow: 0 0 5px rgba(76, 175, 80, 0.2); }
+        footer { margin-top: 30px; text-align: center; font-size: 12px; color: #888; border-top: 1px solid #ddd; padding-top: 15px; }
     </style>
 </head>
 <body>
@@ -133,6 +33,7 @@
     
     <div class="usage-info">
         <strong>총 사용 횟수: <span id="usage-count">0</span>회</strong>
+        <button id="btn-clear-data" class="btn-clear">기록 전체 삭제</button>
     </div>
 
     <div class="input-group">
@@ -146,8 +47,7 @@
     <input type="text" id="history-title" placeholder="📊 이 계산 기록의 제목을 입력하세요 (예: 수학 1단원 풀이)">
     
     <ul id="history-list" class="history-list">
-        <li id="empty-message" style="text-align: center; color: #999; border: none; background: none;">기록이 없습니다.</li>
-    </ul>
+        </ul>
 
     <footer>
         © 2026 충북자연과학교육원 필즈수학프로젝트
@@ -156,21 +56,103 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', () => {
+        // --- 상태 변수 ---
         let usageCount = 0;
+        let historyData = [];
+        let mainTitle = '';
 
+        // --- DOM 요소 ---
         const exprInput = document.getElementById('expression');
         const expAnsInput = document.getElementById('expected-answer');
         const btnCalculate = document.getElementById('btn-calculate');
+        const btnClearData = document.getElementById('btn-clear-data');
         const feedbackDiv = document.getElementById('feedback');
         const historyList = document.getElementById('history-list');
         const usageCountSpan = document.getElementById('usage-count');
-        const emptyMessage = document.getElementById('empty-message');
+        const titleInput = document.getElementById('history-title');
 
+        // --- 초기 데이터 로드 (Local Storage) ---
+        function loadData() {
+            const savedData = localStorage.getItem('mathCalculatorData');
+            if (savedData) {
+                const parsed = JSON.parse(savedData);
+                usageCount = parsed.count || 0;
+                historyData = parsed.history || [];
+                mainTitle = parsed.title || '';
+                
+                usageCountSpan.textContent = usageCount;
+                titleInput.value = mainTitle;
+                renderHistory();
+            } else {
+                renderHistory(); // 비어있을 때 메시지 출력용
+            }
+        }
+
+        // --- 데이터 저장 (Local Storage) ---
+        function saveData() {
+            const dataToSave = {
+                count: usageCount,
+                history: historyData,
+                title: titleInput.value
+            };
+            localStorage.setItem('mathCalculatorData', JSON.stringify(dataToSave));
+        }
+
+        // --- 피드백 메시지 표시 ---
         function showFeedback(message, color) {
             feedbackDiv.innerHTML = `<span style="color: ${color}; font-weight: bold;">${message}</span>`;
             feedbackDiv.style.display = 'block';
         }
 
+        // --- 기록 렌더링 ---
+        function renderHistory() {
+            historyList.innerHTML = '';
+            
+            if (historyData.length === 0) {
+                historyList.innerHTML = '<li id="empty-message" style="text-align: center; color: #999; border: none; background: none;">기록이 없습니다.</li>';
+                return;
+            }
+
+            historyData.forEach((item, index) => {
+                const li = document.createElement('li');
+                
+                // 메모 입력창
+                const memoInput = document.createElement('input');
+                memoInput.type = 'text';
+                memoInput.className = 'history-memo';
+                memoInput.placeholder = '이 계산의 의미를 적어보세요 (클릭하여 수정)';
+                memoInput.value = item.memo || '';
+                memoInput.addEventListener('change', (e) => {
+                    historyData[index].memo = e.target.value;
+                    saveData();
+                });
+
+                // 수식과 결과 표시
+                const exprDiv = document.createElement('div');
+                exprDiv.style.marginBottom = '5px';
+                exprDiv.innerHTML = `<strong>수식:</strong> ${item.expr}`;
+
+                const resultDiv = document.createElement('div');
+                resultDiv.style.marginBottom = '5px';
+                resultDiv.innerHTML = `<strong>결과:</strong> ${item.actual}`;
+
+                li.appendChild(memoInput);
+                li.appendChild(exprDiv);
+                li.appendChild(resultDiv);
+
+                // 사용자 입력값 표시 (있는 경우만)
+                if (item.expected !== '') {
+                    const expectedDiv = document.createElement('div');
+                    const expectedText = `${item.expected} <strong style="color: ${item.correct ? '#2e7d32' : '#d32f2f'}">(${item.correct ? '정답' : '오답'})</strong>`;
+                    expectedDiv.innerHTML = `사용자 입력: ${expectedText}`;
+                    li.appendChild(expectedDiv);
+                }
+                
+                historyList.appendChild(li);
+            });
+        }
+
+        // --- 계산 실행 ---
         function calculate() {
             try {
                 const expression = exprInput.value.trim();
@@ -195,7 +177,6 @@
 
                 let feedbackMessage = `계산 결과: ${calculatedResult}`;
                 let isCorrect = null;
-                let historyExpectedText = '입력 안함';
 
                 if (expectedAnswer !== '') {
                     const parsedUserAnswer = Number(expectedAnswer);
@@ -208,28 +189,27 @@
                         feedbackMessage = `틀렸습니다. 정답은 ${calculatedResult} 입니다.`;
                         showFeedback(feedbackMessage, '#d32f2f');
                     }
-                    historyExpectedText = `${expectedAnswer} <strong style="color: ${isCorrect ? '#2e7d32' : '#d32f2f'}">(${isCorrect ? '정답' : '오답'})</strong>`;
                 } else {
                     showFeedback(feedbackMessage, '#333');
                 }
 
+                // 상태 업데이트
                 usageCount++;
                 usageCountSpan.textContent = usageCount;
 
-                if (emptyMessage) {
-                    emptyMessage.style.display = 'none';
-                }
-
-                // 기록 리스트 항목 생성 및 메모 입력창 추가
-                const li = document.createElement('li');
-                li.innerHTML = `
-                    <input type="text" class="history-memo" placeholder="이 계산의 의미를 적어보세요 (클릭하여 수정)">
-                    <div style="margin-bottom: 5px;"><strong>수식:</strong> ${expression}</div>
-                    <div style="margin-bottom: 5px;"><strong>결과:</strong> ${calculatedResult}</div>
-                    ${expectedAnswer !== '' ? `<div>사용자 입력: ${historyExpectedText}</div>` : ''}
-                `;
+                const newItem = {
+                    expr: expression,
+                    actual: calculatedResult,
+                    expected: expectedAnswer,
+                    correct: isCorrect,
+                    memo: '' // 초기 메모는 빈칸
+                };
                 
-                historyList.insertBefore(li, historyList.firstChild);
+                // 새 기록을 배열 맨 앞에 추가
+                historyData.unshift(newItem);
+                
+                renderHistory();
+                saveData();
 
                 exprInput.value = '';
                 expAnsInput.value = '';
@@ -241,15 +221,31 @@
             }
         }
 
+        // --- 이벤트 리스너 ---
         btnCalculate.addEventListener('click', calculate);
         
-        exprInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') calculate();
-        });
+        exprInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') calculate(); });
+        expAnsInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') calculate(); });
         
-        expAnsInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') calculate();
+        titleInput.addEventListener('change', () => {
+            saveData();
         });
+
+        // 전체 기록 삭제 버튼
+        btnClearData.addEventListener('click', () => {
+            if(confirm('정말로 모든 계산 기록을 삭제하시겠습니까?')) {
+                localStorage.removeItem('mathCalculatorData');
+                usageCount = 0;
+                historyData = [];
+                titleInput.value = '';
+                usageCountSpan.textContent = usageCount;
+                renderHistory();
+                feedbackDiv.style.display = 'none';
+            }
+        });
+
+        // 초기 실행 시 데이터 불러오기
+        loadData();
     });
 </script>
 
